@@ -1,14 +1,17 @@
 
 import React, { useState, useEffect } from 'react'
 import { Card } from '../types/cardInterface'
+import { useDrag, useDrop } from 'react-dnd';
 import '../App.css'
 
 
 interface DocumentCardProps {
   document: Card
+  index: number
+  moveCard: (dragIndex: number, hoverIndex: number) => void
 }
 
-const DocumentCard: React.FC<DocumentCardProps> = ({ document }) => {
+const DocumentCard: React.FC<DocumentCardProps> = ({ document, index, moveCard }) => {
 
   const [isLoading, setIsLoading] = useState(true)
   const [showImage, setShowImage] = useState(false)
@@ -33,10 +36,26 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document }) => {
     }
   }, [setShowImage])
 
+
+  const [, ref] = useDrag({
+    type: 'CARD',
+    item: { index },
+  });
+
+  const [, drop] = useDrop({
+    accept: 'CARD',
+    hover: (item: { index: number }) => {
+      if (item.index !== index) {
+        moveCard(item.index, index)
+        item.index = index
+      }
+    },
+  });
+
   return (
     <>
       <div className='card'>
-        <div onClick={() => setShowImage(true)}>
+        <div onClick={() => setShowImage(true)} ref={(node) => ref(drop(node))}>
           {isLoading ? (
             <div className='loader'>Loading...</div>
           ) : (
@@ -47,7 +66,6 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document }) => {
       </div>
 
       {showImage && (
-
         <div className='overlay-container' onClick={() => setShowImage(false)}>
           <img className='img-overlay' src={document.imageSrc} alt={document.title} />
         </div>
