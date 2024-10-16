@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card } from '../types/cardInterface';
 
-const API_URL = 'http://localhost:5173/api/documents';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5173/api/documents';
 
 
 export const useDocuments = () => {

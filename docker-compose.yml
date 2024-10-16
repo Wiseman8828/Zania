@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+    ports:
+      - "3000:5173" # Map Vite's dev server to port 3000 on the host
+    environment:
+      VITE_API_URL: http://localhost:3000/api/documents # Mock server endpoint
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    stdin_open: true
+    tty: true
+    command: npm run dev -- --host

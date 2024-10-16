@@ -4,7 +4,7 @@ import App from './App.tsx'
 import './index.css'
 import { startMockServiceWorker } from './mocks/browser.ts'
 
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.MODE === 'development' || import.meta.env.REACT_APP_MOCK_API === 'true') {
   startMockServiceWorker()
 }
 
