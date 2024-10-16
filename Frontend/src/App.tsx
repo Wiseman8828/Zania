@@ -50,6 +50,8 @@ const App: React.FC = () => {
   }
 
   return (
+    <>
+    <h2>Cards (Movable)</h2>
     <DndProvider backend={HTML5Backend}>
       {isSaving && ( <div className='loader'>Saving...</div> )}
       <div className="CardContainer">
@@ -59,6 +61,7 @@ const App: React.FC = () => {
         ))}
       </div>
     </DndProvider>
+    </>
   )
 }
 
